@@ -2,6 +2,7 @@ import { useState } from "react";
 
 const App = () => {
   const [num, setNum] = useState(0);
+  const [recordedNums, setRecordedNums] = useState([]);
 
   const increaseNum = () => {
     setNum(num + 1);
@@ -13,20 +14,43 @@ const App = () => {
     setNum(0);
   };
   //
-  const addRecordList = () => {};
-  //
-  return (
-    <div className="App">
-      <div>현재 숫자 : {num}</div>
+  const saveRecord = () => {
+    setNum(0);
+    setRecordedNums([...recordedNums, num]);
+  };
+
+  const recordList =
+    recordedNums.length > 0 ? (
       <div>
-        <button onClick={increaseNum}>증가</button>
-        <button onClick={decreaseNum}>감소</button>
-        <button onClick={cancelNum}>취소</button>
-        <hr />
-        <button onClick={addRecordList}>기록</button>
-        <button>초기화</button>
+        <h1>RECORD</h1>
+        <ul>
+          {recordedNums.map((num, index) => (
+            <li key={index}>{num}</li>
+          ))}
+        </ul>
       </div>
-    </div>
+    ) : (
+      <div>없음</div>
+    );
+  //
+  const resetRecord = () => {
+    setRecordedNums([]);
+  };
+  return (
+    <>
+      <div className="App">
+        <div>현재 숫자 : {num}</div>
+        <div>
+          <button onClick={increaseNum}>증가</button>
+          <button onClick={decreaseNum}>감소</button>
+          <button onClick={cancelNum}>취소</button>
+          <hr />
+          <button onClick={saveRecord}>기록</button>
+          <button onClick={resetRecord}>초기화</button>
+        </div>
+        {recordList}
+      </div>
+    </>
   );
 };
 
