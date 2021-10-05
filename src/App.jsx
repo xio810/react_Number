@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const App = () => {
   const [num, setNum] = useState(0);
-  const [recordedNums, setRecordedNums] = useState([]);
+  const [recordedNums, setRecordedNums] = useState([3, 6, 8]);
 
   const increaseNum = () => {
     setNum(num + 1);
@@ -15,6 +15,7 @@ const App = () => {
   };
   //
   const saveRecord = () => {
+    if (num == 0) return;
     setNum(0);
     setRecordedNums([...recordedNums, num]);
   };
@@ -24,8 +25,11 @@ const App = () => {
       <div>
         <h1>RECORD</h1>
         <ul>
-          {recordedNums.map((num, index) => (
-            <li key={index}>{num}</li>
+          {recordedNums.map((num3, index) => (
+            <li key={index}>
+              {num3}
+              <button onClick={() => delRecordedNum(index)}>삭제</button>
+            </li>
           ))}
         </ul>
       </div>
@@ -36,8 +40,19 @@ const App = () => {
   const resetRecord = () => {
     setRecordedNums([]);
   };
+  const delRecordedNum = (delIndex) => {
+    setRecordedNums(recordedNums.filter((el, index) => index != delIndex));
+  };
+  //
   return (
-    <>
+    <div
+      style={{
+        display: "inline-block",
+        border: "2px solid black",
+        borderRadius: "10px",
+        padding: "10px",
+      }}
+    >
       <div className="App">
         <div>현재 숫자 : {num}</div>
         <div>
@@ -50,7 +65,7 @@ const App = () => {
         </div>
         {recordList}
       </div>
-    </>
+    </div>
   );
 };
 
