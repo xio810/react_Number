@@ -25,10 +25,11 @@ const App = () => {
       <div>
         <h1>RECORD</h1>
         <ul>
-          {recordedNums.map((num3, index) => (
+          {recordedNums.map((num, index) => (
             <li key={index}>
-              {num3}
+              {num}
               <button onClick={() => delRecordedNum(index)}>삭제</button>
+              <button>수정</button>
             </li>
           ))}
         </ul>
