@@ -1,30 +1,27 @@
 import { useState } from "react";
-
 const RecordForm = ({ recordedNums, setRecordedNums }) => {
   const [num, setNum] = useState(0);
 
-  const increaseNum = () => setNum(num + 1);
-
-  const decreaseNum = () => {
-    if (num - 1 < 0) return;
-
-    setNum(num - 1);
+  const increaseNum = () => {
+    setNum(num + 1);
   };
 
-  const cancelModifyNum = () => setNum(0);
+  const decreaseNum = () => {
+    setNum(num - 1 > 0 ? num - 1 : 0);
+  };
+
+  const cancelModifyNum = () => {
+    setNum(0);
+  };
 
   const saveRecord = () => {
     if (num == 0) return;
-
     setRecordedNums([...recordedNums, num]);
     setNum(0);
   };
 
-  const clearRecords = () => {
+  const clearRecord = () => {
     setNum(0);
-
-    if (recordedNums.length == 0) return;
-
     setRecordedNums([]);
   };
 
@@ -38,14 +35,14 @@ const RecordForm = ({ recordedNums, setRecordedNums }) => {
     >
       <div>
         <span>숫자 : {num}</span>
-        <button onClick={increaseNum}>증가</button>{" "}
-        <button onClick={decreaseNum}>감소</button>{" "}
+        <button onClick={increaseNum}>증가</button>
+        <button onClick={decreaseNum}>감소</button>
         <button onClick={cancelModifyNum}>취소</button>
       </div>
       <hr />
       <div>
-        <button onClick={saveRecord}>기록</button>{" "}
-        <button onClick={clearRecords}>초기화</button>
+        <button onClick={saveRecord}>기록</button>
+        <button onClick={clearRecord}>초기화</button>
       </div>
     </div>
   );
@@ -58,12 +55,13 @@ const RecordList = ({ recordedNums, setRecordedNums }) => {
     setRecordedNums(recordedNums.filter((el, index) => index != delIndex));
   };
 
+  // 자주 틀리는 구간
   if (recordedNums.length > 0) {
     List = (
       <ul>
-        {recordedNums.map((recordedNum, index) => (
+        {recordedNums.map((recordedNum_, index) => (
           <li key={index}>
-            <span>{recordedNum}</span>
+            <span>{recordedNum_}</span>
             &nbsp;
             <button onClick={() => delRecordedNum(index)}>삭제</button>
           </li>
@@ -71,6 +69,20 @@ const RecordList = ({ recordedNums, setRecordedNums }) => {
       </ul>
     );
   }
+
+  // if (recordedNums.length > 0) {
+  //   List = (
+  //     <ul>
+  //       {recordedNums.map((recordedNum, index) => (
+  //         <li key={index}>
+  //           <span>{recordedNum}</span>
+  //           &nbsp;
+  //           <button onClick={() => delRecordedNum(index)}>삭제</button>
+  //         </li>
+  //       ))}
+  //     </ul>
+  //   );
+  // }
 
   return (
     <div
@@ -87,10 +99,14 @@ const RecordList = ({ recordedNums, setRecordedNums }) => {
 };
 
 const RecordApp = () => {
-  const [recordedNums, setRecordedNums] = useState([3, 2, 1]);
-
+  const [recordedNums, setRecordedNums] = useState([2, 4, 6]);
   return (
-    <div style={{ display: "inline-block", padding: "10px" }}>
+    <div
+      style={{
+        display: "inline-block",
+        padding: "10px",
+      }}
+    >
       <RecordForm
         recordedNums={recordedNums}
         setRecordedNums={setRecordedNums}
