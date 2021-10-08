@@ -59,12 +59,13 @@ const RecordList = ({ recordedNums, setRecordedNums }) => {
   if (recordedNums.length > 0) {
     List = (
       <ul>
-        {recordedNums.map((recordedNum_, index) => (
-          <li key={index}>
-            <span>{recordedNum_}</span>
-            &nbsp;
-            <button onClick={() => delRecordedNum(index)}>삭제</button>
-          </li>
+        {recordedNums.map((recordedNum, index) => (
+          <RecordListItem
+            key={index}
+            index={index}
+            recordedNum={recordedNum}
+            delRecordedNum={delRecordedNum}
+          />
         ))}
       </ul>
     );
@@ -95,6 +96,42 @@ const RecordList = ({ recordedNums, setRecordedNums }) => {
     >
       {List}
     </div>
+  );
+};
+
+const RecordListItem = ({ recordedNum, delRecordedNum, index }) => {
+  const [editMode, setEditMode] = useState(false);
+  const [newRecordedNum, setNewRecordedNum] = useState(recordedNum);
+
+  const editRecordedNum = () => {
+    setEditMode(false);
+  };
+  return (
+    <li key={index}>
+      {editMode ? (
+        <>
+          <span>
+            <input
+              style={{ width: "50px" }}
+              type="number"
+              value={newRecordedNum}
+              onChange={(e) => setNewRecordedNum(e.target.value)}
+            />
+          </span>
+          &nbsp;
+          <button onClick={editRecordedNum}>수정완료</button>
+          <button onClick={() => setEditMode(false)}>수정취소</button>
+        </>
+      ) : (
+        <>
+          <span>{recordedNum}</span>
+          &nbsp;
+          <button onClick={() => setEditMode(true)}>수정</button>
+        </>
+      )}
+      &nbsp;
+      <button onClick={() => delRecordedNum(index)}>삭제</button>
+    </li>
   );
 };
 
